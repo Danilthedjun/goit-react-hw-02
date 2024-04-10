@@ -34,6 +34,7 @@ export default function App() {
     });
   };
   const totalFeedback = values.good + values.neutral + values.bad;
+  const positiveFeedback = Math.round((values.good / totalFeedback) * 100);
 
   useEffect(() => {
     localStorage.setItem("valuesData", JSON.stringify(values));
@@ -47,8 +48,14 @@ export default function App() {
         feedback={resetFeedback}
         total={totalFeedback}
       />
-      {totalFeedback > 0 && <Feedback values={values} total={totalFeedback} />}
-      {totalFeedback <= 0 && <Notification />}
+      {totalFeedback > 0 && (
+        <Feedback
+          values={values}
+          total={totalFeedback}
+          positivValue={positiveFeedback}
+        />
+      )}
+      {totalFeedback < 1 && <Notification />}
     </>
   );
 }
